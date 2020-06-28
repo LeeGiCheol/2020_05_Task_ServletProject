@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD config 3.0//EN"
+								"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!-- sqlSessionFactory 객체를 생성할 때 사용할 파일 -->								
+<configuration>
+	<!-- spms/dao/db.properties를 받아오고 -->
+	<properties resource="spms/dao/db.properties"/>
+	
+	<typeAliases>
+	<!-- type에 있는 경로를 alias로 별명을 정할 수 있다 -->
+		<typeAlias type="spms.vo.Emp" alias="emp"/>
+		<typeAlias type="spms.vo.Post" alias="post"/>
+		<typeAlias type="spms.vo.Task" alias="task"/>
+		<typeAlias type="spms.vo.Search" alias="search"/>
+	</typeAliases>
+	
+	
+	<environments default="development">
+		<environment id="development">
+		<!--  Mysql에서 직접 관리  -->
+			<transactionManager type="JDBC"/>
+			<!-- Connection Pool 설정 -->
+			<dataSource type="POOLED">
+				<property name="driver"   value="${driver}"/>
+				<property name="url" 	  value="${url}"/>
+				<property name="username" value="${username}"/>
+				<property name="password" value="${password}"/>
+			</dataSource>
+		</environment>
+	</environments>
+	<!-- 이파일을 읽어야 실행가능  -->
+	<mappers>
+		<mapper resource="spms/dao/MySqlEmpDao.xml"/>
+		<mapper resource="spms/dao/MySqlTaskDao.xml"/>
+		<mapper resource="spms/dao/MySqlPostDao.xml"/>
+	</mappers>
+</configuration>

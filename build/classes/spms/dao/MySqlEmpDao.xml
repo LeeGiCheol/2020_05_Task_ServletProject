@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTC Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="spms.dao.EmpDao">
+	<resultMap type="emp" id="empResultMap">
+		<id column="ENO" 			property="eno"/>
+		<result column="ENAME" 		property="ename"/>
+		<result column="PW" 		property="pw"/>
+		<result column="TEL" 		property="tel"/>
+		<result column="H_DATE" 	property="h_date" 	javaType="java.sql.Date"/>
+		<result column="DNAME" 		property="dname"/> 	
+	</resultMap>
+	
+	<select id="registerCheck" resultMap="empResultMap">
+		select *
+		from EMP 
+		where TEL = #{tel}
+	</select>
+	
+	<select id="empDnSearch" resultMap ="empResultMap" parameterType="emp">
+		select * from emp where DNAME = #{dname} AND ENAME
+		like '%${ename}%'
+		order by ENAME, H_DATE
+	</select>
+	
+	<select id="empAllSearch" resultMap ="empResultMap" parameterType="emp">
+		select * from emp where ENAME
+		like '%${ename}%'
+		order by DNAME, ENAME, H_DATE
+	</select>
+	
+	<insert id="empInsert" parameterType="emp">
+		insert into emp(ENAME,PW,TEL,DNAME,H_DATE) value
+		(#{ename},#{pw},#{tel},#{dname},NOW())
+	</insert>
+	
+	<select id="enoCheck" parameterType="String" resultMap="empResultMap">
+		select ENO, ENAME, PW, TEL, H_DATE,DNAME from emp WHERE eno = #{eno}
+	</select>
+
+	
+		<select id="empInfo" parameterType="String" resultMap="empResultMap">
+		select * from emp where TEL = #{tel}
+	</select>
+	
+</mapper>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTC Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="spms.dao.TaskDao">
+	<resultMap type="task" id="taskResultMap">
+		<id column="ENO" property="eno"/>
+		<result column="ENAME" 		property="ename"/>
+		<result column="T_CON" 		property="t_con"/>
+		<result column="STA_DATE" 	property="sta_date" javaType="java.sql.Date"/>
+		<result column="END_DATE" 		property="end_date" javaType="java.sql.Date" />
+		<result column="STATE" 	property="state"/>
+		<result column="TNO"	property="tno"/>
+		<result column="DNAME"	property="dname"/>
+	</resultMap>
+	
+	
+	<insert id="taskInsert" parameterType="task">
+		insert into task(ENO, T_CON, ENAME, STATE, STA_DATE, DNAME) value
+		(#{eno},#{t_con},#{ename},#{state},NOW(), #{dname})
+	</insert>
+	
+	
+	
+	
+	
+	<select id="taskList" resultMap="taskResultMap">
+		select T_CON, ENAME, STATE, TNO, STA_DATE, DNAME
+		from TASK
+	</select>
+	
+	
+	
+	<select id="empSelectOne" parameterType="int" resultMap="taskResultMap">
+		select ENO, ENAME, TNO, DNAME
+		from task 
+		where ENO = #{eno}
+	</select>
+	
+	<select id="taskSelectOne" parameterType="int" resultMap="taskResultMap">
+		select ENO, ENAME, T_CON, TNO, STATE, STA_DATE, DNAME
+		from task 
+		where TNO = #{tno}
+	</select>
+	
+	
+	
+	<update id="taskChange" parameterType="task">
+		update task
+			<set>
+				<if test="state == 0">state=1</if>
+				<if test="state == 1">state=2</if>
+			</set>
+		where TNO = #{tno}
+	</update>
+	
+	
+	<update id="taskUpdate" parameterType="task">
+		update task set 
+		T_CON = #{t_con},
+		STATE = #{state}
+		where TNO = #{tno}
+	</update>
+	
+	
+	<delete id="taskDelete" parameterType="int">
+		delete from task
+		where TNO = #{tno}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTC Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="spms.dao.PostDao">
+   <resultMap type="post" id="postResultMap">
+      <id column="PNO"          property="pno" />
+      <result column="TITLE"       property="title" />
+      <result column="P_CON"       property="p_con" />
+      <result column="CRE_DATE"    property="cre_date"   javaType="java.sql.Date" />
+      <result column="ENO"       property="eno" />
+      <result column="ENAME"       property="ename" />
+      <result column="DNAME"       property="dname" />
+   </resultMap>
+
+	<select id="postList" resultMap ="postResultMap">
+		select pno, title, p_con, cre_date, eno, ename, dname
+		from POST
+	</select>
+
+   <insert id="postInsert" parameterType="post">
+      insert into post(TITLE, P_CON, CRE_DATE,ENO,ENAME,DNAME) value(#{title},#{p_con},NOW(),#{eno},#{ename},#{dname})
+   </insert>
+
+
+	<select id="postSelectOne" parameterType="int" resultMap="postResultMap">
+		select *
+		from post 
+		where PNO = #{pno}
+	</select>
+	
+	<delete id="postDelete" parameterType="int">
+		delete from post
+		where PNO = #{pno}
+	</delete>
+	
+	<update id="postUpdate" parameterType="post">
+		update post set 
+		TITLE = #{title},
+		P_CON = #{p_con}
+		where pno = #{pno}
+	</update>
+	
+	<select id="postSelectList" parameterType="String"
+		resultMap="postResultMap">
+		select * from post
+		where TITLE like concat('%', #{title},'%')
+	</select>
+	
+</mapper>
